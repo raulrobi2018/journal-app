@@ -1,3 +1,9 @@
+// No importa que no aparezca el guion bajo, sass lo hace solo cuando existe un partial
+@import './base/settings';
+@import './base/base';
+
+//components
+
 html, body {
     background-color: white;
 }
