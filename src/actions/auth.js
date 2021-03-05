@@ -1,4 +1,5 @@
 import {types} from "../types/types";
+import {firebase, googleAuthProvider} from "../firebase/firebase-config";
 
 // En este caso este middleware devolverá un callback
 //El dispatch lo obtiene de thunk
@@ -8,6 +9,21 @@ export const startLoginEmailPassword = (email, password) => {
         setTimeout(() => {
             dispatch(login(123, "Raul"));
         }, 3500);
+    };
+};
+
+// Login con Google
+export const startGoogleLogin = () => {
+    return (dispatch) => {
+        firebase
+            .auth()
+            .signInWithPopup(googleAuthProvider)
+            // signInWithPopup devuelve un objeto de tipo UserCredential
+            // De ese objeto extraigo user que es el que tiene la información proveida por
+            //la autenticación de Google en Firebase
+            .then(({user}) => {
+                dispatch(login(user.uid, user.displayName));
+            });
     };
 };
 
