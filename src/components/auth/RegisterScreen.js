@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useForm} from "../../hooks/useForm";
 import validator from "validator";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeError, setError} from "../../actions/ui";
 
 export const RegisterScreen = () => {
@@ -13,7 +13,11 @@ export const RegisterScreen = () => {
         confirm: "123456"
     };
 
+    //Hook de Redux
     const dispatch = useDispatch();
+    //Hook de Redux que retorna el state actual
+    //En este caso tomo el atributo ui del state y luego desestructuro el mensaje
+    const {msgError} = useSelector((state) => state.ui);
 
     const [formValues, {handleInputChange}] = useForm(data);
 
@@ -54,7 +58,10 @@ export const RegisterScreen = () => {
             <h3 className="auth__title">Login</h3>
 
             <form onSubmit={handleRegister}>
-                <div className="auth__alert-error">Error</div>
+                {/* Solo muestra el error si msgError no es null */}
+                {msgError && (
+                    <div className="auth__alert-error">{msgError}</div>
+                )}
 
                 <input
                     type="text"
