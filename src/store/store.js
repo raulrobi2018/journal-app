@@ -1,6 +1,7 @@
 import {createStore, combineReducers, compose, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {authReducer} from "../reducers/authReducer";
+import {uiReducer} from "../reducers/uiReducer";
 
 // Este parámetro es para la configuración del Redux DevTools en las tools del navegador pero par uso con Redux
 const composeEnhancers =
@@ -13,7 +14,8 @@ const composeEnhancers =
 // De esta manera cuando tengamos que crear una nueva funcionalidad, simplemente tenemos que añadirlo a
 //reducers
 const reducers = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    ui: uiReducer
 });
 
 // Se crea el store donde Redux guardará toda la información
