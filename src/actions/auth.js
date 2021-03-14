@@ -6,9 +6,16 @@ import { firebase, googleAuthProvider } from "../firebase/firebase-config";
 // En resumen esto es una función que dispara otra función luego que el setTimeout se resuelve
 export const startLoginEmailPassword = (email, password) => {
   return (dispatch) => {
-    setTimeout(() => {
-      dispatch(login(123, "Raul"));
-    }, 3500);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(async ({ user }) => {
+        dispatch(login(user.uid, user.displayName));
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
