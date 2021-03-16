@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {useForm} from "../../hooks/useForm";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     login,
     startGoogleLogin,
@@ -10,6 +10,12 @@ import {
 
 export const LoginScreen = () => {
     const dispatch = useDispatch();
+
+    //Hook de Redux que retorna el state actual
+    //En este caso tomo el atributo ui del state y luego desestructuro el mensaje
+    const {loading} = useSelector((state) => {
+        return state.ui;
+    });
 
     const [formValues, {handleInputChange}] = useForm({
         email: "nando@gmail.com",
@@ -52,7 +58,7 @@ export const LoginScreen = () => {
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
-                    disabled={false}
+                    disabled={loading}
                 >
                     Login
                 </button>
