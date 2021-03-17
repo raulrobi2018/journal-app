@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {
     BrowserRouter as Router,
     Redirect,
@@ -14,6 +14,14 @@ import {login} from "../actions/auth";
 export const AppRouter = () => {
     const dispatch = useDispatch();
 
+    //Utilizo la variable "checking" con la idea de esperar a que se chequee la autenticación
+    //en Firebase. Mientras "checking" sea true no se mostrará nada porque no es seguro si está
+    //autenticado o no
+    const [checking, setChecking] = useState(true);
+
+    //Utilizo este state para saber si está autenticado o no
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     // Cuando el estado de la autentificación en Firebase cambie, se ejecuta esta función
     //El useEffect solo se ejecutará 1 vez porque el dispatch pasado como dependencia
     //no cambia
@@ -24,9 +32,18 @@ export const AppRouter = () => {
             //O sea que si el uid no existe o si es null, entonces no hace nada
             if (user?.uid) {
                 dispatch(login(user.uid, user.displayName));
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
             }
+
+            setChecking(false);
         });
-    }, [dispatch]);
+    }, [dispatch, setChecking, setIsLoggedIn]);
+
+    if (checking) {
+        return <h1>Espere...</h1>;
+    }
 
     return (
         <Router>
