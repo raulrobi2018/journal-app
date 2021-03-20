@@ -65,3 +65,17 @@ export const login = (uid, displayName) => {
         }
     };
 };
+
+//Esta es una función asincrona que primero ejecuta el logout en Firebase y espera (await)
+//luego actualiza los datos en el store mediante el dispatch
+export const startLogout = () => {
+    return async (dispatch) => {
+        await firebase.auth().signOut();
+
+        dispatch(logout());
+    };
+};
+
+export const logout = () => ({
+    type: types.logout
+});
