@@ -10,6 +10,9 @@ import {AuthRouter} from "./AuthRouter";
 import {firebase} from "../firebase/firebase-config";
 import {useDispatch} from "react-redux";
 import {login} from "../actions/auth";
+import {PublicRoute} from "./PublicRoute";
+import {LoginScreen} from "../components/auth/LoginScreen";
+import {PrivateRoute} from "./PrivateRoute";
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
@@ -52,8 +55,20 @@ export const AppRouter = () => {
          renders the first one that matches the current URL. */}
                 <Switch>
                     {/* exact para que machee la ruta exacta */}
-                    <Route path="/auth" component={AuthRouter} />
-                    <Route path="/" component={JournalScreen} />
+                    <PublicRoute
+                        exact
+                        path="/auth/login"
+                        component={LoginScreen}
+                        isLoggedIn={isLoggedIn}
+                    />
+                    <PrivateRoute
+                        exaxt
+                        path="/"
+                        component={JournalScreen}
+                        isLoggedIn={isLoggedIn}
+                    />
+                    {/* <Route path="/auth" component={AuthRouter} />
+                    <Route path="/" component={JournalScreen} /> */}
 
                     {/* Si no encuentra ningún path, lo redirige a marvel */}
                     <Redirect to="/auth/login" />
