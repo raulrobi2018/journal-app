@@ -2,6 +2,8 @@ import {types} from "../types/types";
 import {firebase, googleAuthProvider} from "../firebase/firebase-config";
 import {finishLoading, startLoading} from "./ui";
 
+import Swal from "sweetalert2";
+
 // En este caso este middleware devolverá un callback
 //El dispatch lo obtiene de thunk
 // En resumen esto es una función que dispara otra función luego que el setTimeout se resuelve
@@ -17,8 +19,8 @@ export const startLoginEmailPassword = (email, password) => {
                 dispatch(finishLoading());
             })
             .catch((err) => {
-                console.log(err);
                 dispatch(finishLoading());
+                Swal.fire("Error", err.message, "error");
             });
     };
 };
@@ -36,7 +38,7 @@ export const startRegisterWithEmailPasswordName = (email, password, name) => {
                 console.log(user);
             })
             .catch((err) => {
-                console.log(err);
+                Swal.fire("Error", err.message, "error");
             });
     };
 };
