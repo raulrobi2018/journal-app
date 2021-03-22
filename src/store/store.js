@@ -1,6 +1,7 @@
 import {createStore, combineReducers, compose, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {authReducer} from "../reducers/authReducer";
+import {notesReducer} from "../reducers/notesReducer";
 import {uiReducer} from "../reducers/uiReducer";
 
 // Este parámetro es para la configuración del Redux DevTools en las tools del navegador pero par uso con Redux
@@ -15,7 +16,8 @@ const composeEnhancers =
 //reducers
 const reducers = combineReducers({
     auth: authReducer,
-    ui: uiReducer
+    ui: uiReducer,
+    notes: notesReducer
 });
 
 // Se crea el store donde Redux guardará toda la información
