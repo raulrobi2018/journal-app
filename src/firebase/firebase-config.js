@@ -17,7 +17,7 @@ firebase.initializeApp(firebaseConfig);
 console.log("Firebase configurado");
 
 //Obtengo la referencia a la base de datos
-const db = firebase.firestore;
+const db = firebase.firestore();
 // Necesario para hacer autentificación con Google
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 

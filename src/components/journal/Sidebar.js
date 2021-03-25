@@ -2,6 +2,7 @@ import React from "react";
 import {JournalEntries} from "./JournalEntries";
 import {useDispatch, useSelector} from "react-redux";
 import {startLogout} from "../../actions/auth";
+import {startNewNote} from "../../actions/notes";
 
 export const Sidebar = () => {
     //Hook de Redux que retorna el state actual
@@ -14,6 +15,10 @@ export const Sidebar = () => {
 
     const handleLogout = () => {
         dispatch(startLogout());
+    };
+
+    const handleAddEntry = () => {
+        dispatch(startNewNote());
     };
 
     return (
@@ -29,7 +34,7 @@ export const Sidebar = () => {
                 </button>
             </div>
 
-            <div className="journal__new-entry">
+            <div className="journal__new-entry" onClick={handleAddEntry}>
                 <i className="far fa-calendar-plus fa-5x"></i>
                 <p className="mt-5">New entry</p>
             </div>
