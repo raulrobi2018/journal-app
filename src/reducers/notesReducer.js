@@ -15,6 +15,13 @@ export const notesReducer = (state = initialState, action) => {
         }
       };
 
+    case types.notesLoad:
+      return {
+        ...state,
+        // Exparso con el operador spread porque esto es un array
+        notes: [...action.payload]
+      };
+
     default:
       return state;
   }
