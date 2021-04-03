@@ -1,9 +1,10 @@
-import { db } from "../firebase/firebase-config";
-import { types } from '../types/types';
+import {db} from "../firebase/firebase-config";
+import {types} from "../types/types";
+import {loadNotes} from "../helpers/loadNotes";
 
 export const startNewNote = () => {
     // El segundo parámetro me da acceso al state actual, como lo hace el useSelector
-    return async(dispatch, getState) => {
+    return async (dispatch, getState) => {
         // También se puede hacer desestructuración
         const uid = getState().auth.uid;
 
@@ -15,8 +16,6 @@ export const startNewNote = () => {
 
         // Grabo el registro en la base de datos
         const doc = await db.collection(`${uid}/journal/Notes`).add(entry);
-
-        console.log(doc);
 
         dispatch(activeNote(doc.id, entry));
     };
@@ -34,4 +33,11 @@ export const activeNote = (id, note) => ({
 export const setNotes = (notes) => ({
     type: types.notesLoad,
     payload: notes
-})
+});
+
+export const startLoadingNotes = (uid) => {
+    return async (dispatch) => {
+        const notes = await loadNotes(uid);
+        dispatch(setNotes(notes));
+    };
+};
