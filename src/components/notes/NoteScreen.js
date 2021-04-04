@@ -1,17 +1,30 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import {useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
 import {NotesAppBar} from "./NotesAppBar";
 
 export const NoteScreen = () => {
     const {active: note} = useSelector((state) => state.notes);
-    const [formValues, {handleInputChange}] = useForm(note);
+    const [formValues, {handleInputChange, reset}] = useForm(note);
 
     const {body, title} = formValues;
 
-    console.log("body", body);
-    console.log("title", title);
-    console.log("handle", handleInputChange);
+    // Cuando se seleccionan diferentes notas en pantalla, los campos no reflejan la información
+    // de la nota seleccionada, siempre se mantiene en la primera aunque la nota activa si se actualiza si miramos
+    // por devtool de Redux, no se actualiza en nuestro useForm
+    // Para solucionar esto se utiliza un useEffect y useRef y además se modifica la función "reset" del useForm
+    // Ver video 262 para los detalles de la explicación
+
+    const activeId = useRef(note.id);
+
+    useEffect(() => {
+        if (note.id !== activeId.current) {
+            reset(note);
+            activeId.current = note.id;
+        }
+    }, [note, reset]);
+
+    // ***********************************************************************
 
     return (
         <div className="notes__main-content">
