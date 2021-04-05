@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {activeNote} from "../../actions/notes";
 import {useForm} from "../../hooks/useForm";
 import {NotesAppBar} from "./NotesAppBar";
 
@@ -8,6 +9,8 @@ export const NoteScreen = () => {
     const [formValues, {handleInputChange, reset}] = useForm(note);
 
     const {body, title} = formValues;
+
+    const dispatch = useDispatch();
 
     // Cuando se seleccionan diferentes notas en pantalla, los campos no reflejan la información
     // de la nota seleccionada, siempre se mantiene en la primera aunque la nota activa si se actualiza si miramos
@@ -26,6 +29,10 @@ export const NoteScreen = () => {
 
     // ***********************************************************************
 
+    useEffect(() => {
+        dispatch(activeNote(formValues.id, {...formValues}));
+    }, [formValues, dispatch]);
+
     return (
         <div className="notes__main-content">
             <NotesAppBar />
@@ -38,6 +45,7 @@ export const NoteScreen = () => {
                     autoComplete="off"
                     value={title}
                     onChange={handleInputChange}
+                    name="title"
                 />
 
                 <textarea
@@ -45,6 +53,7 @@ export const NoteScreen = () => {
                     className="notes__textarea"
                     value={body}
                     onChange={handleInputChange}
+                    name="body"
                 ></textarea>
 
                 {note.url && (

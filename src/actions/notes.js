@@ -11,7 +11,8 @@ export const startNewNote = () => {
         const entry = {
             title: "",
             body: "",
-            date: new Date().getTime()
+            date: new Date().getTime(),
+            url: ""
         };
 
         // Grabo el registro en la base de datos
@@ -39,5 +40,22 @@ export const startLoadingNotes = (uid) => {
     return async (dispatch) => {
         const notes = await loadNotes(uid);
         dispatch(setNotes(notes));
+    };
+};
+
+export const saveNote = (note) => {
+    return async (dispatch, getState) => {
+        const uid = getState().auth.uid;
+
+        if (!note.url) {
+            delete note.url;
+        }
+
+        const noteToFirestore = {...note};
+
+        // Elimino el id de la nota porque en el documento de Firestore no se almacena
+        delete noteToFirestore.id;
+
+        await db.doc(`${uid}/journal/Notes/${note.id}`).update(noteToFirestore);
     };
 };
