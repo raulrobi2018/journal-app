@@ -1,6 +1,7 @@
 import {db} from "../firebase/firebase-config";
 import {types} from "../types/types";
 import {loadNotes} from "../helpers/loadNotes";
+import Swal from "sweetalert2";
 
 export const startNewNote = () => {
     // El segundo parámetro me da acceso al state actual, como lo hace el useSelector
@@ -57,5 +58,17 @@ export const saveNote = (note) => {
         delete noteToFirestore.id;
 
         await db.doc(`${uid}/journal/Notes/${note.id}`).update(noteToFirestore);
+
+        dispatch(refreshListNotes(note, note.id));
+
+        Swal.fire("", "Se ha actualizado la nota correctamente", "success");
     };
 };
+
+export const refreshListNotes = (note, id) => ({
+    type: types.notesUpdated,
+    payload: {
+        id,
+        note
+    }
+});
