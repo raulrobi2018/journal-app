@@ -2,6 +2,7 @@ import {db} from "../firebase/firebase-config";
 import {types} from "../types/types";
 import {loadNotes} from "../helpers/loadNotes";
 import Swal from "sweetalert2";
+import {fileUpload} from "../helpers/fileUpload";
 
 export const startNewNote = () => {
     // El segundo parámetro me da acceso al state actual, como lo hace el useSelector
@@ -72,3 +73,13 @@ export const refreshListNotes = (note, id) => ({
         note
     }
 });
+
+export const startUploading = (file) => {
+    return async (dispatch, getState) => {
+        const {active: activeNote} = getState().notes;
+
+        const fileUrl = await fileUpload(file);
+
+        console.log(fileUrl);
+    };
+};
