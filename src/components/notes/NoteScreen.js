@@ -58,10 +58,7 @@ export const NoteScreen = () => {
 
                 {note.url && (
                     <div className="notes_image">
-                        <img
-                            src="https://imgd.aeplcdn.com/476x268/bw/ec/15278/Royal-Enfield-Classic-350-Side-87574.jpg?v=201711021421&q=80"
-                            alt="Image"
-                        />
+                        <img src={note.url} alt="Image" />
                     </div>
                 )}
             </div>
