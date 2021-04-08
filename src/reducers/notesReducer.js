@@ -16,6 +16,13 @@ export const notesReducer = (state = initialState, action) => {
                 }
             };
 
+        case types.notesAddEntry:
+            return {
+                ...state,
+                // Inserta la nueva nota la principio y le agrega las existentes
+                notes: [action.payload, ...state.notes]
+            };
+
         case types.notesLoad:
             return {
                 ...state,
@@ -38,6 +45,13 @@ export const notesReducer = (state = initialState, action) => {
                 ...state,
                 active: null,
                 notes: state.notes.filter((n) => n.id !== action.payload)
+            };
+
+        case types.notesLogoutCleaning:
+            return {
+                ...state,
+                active: null,
+                notes: []
             };
 
         default:
