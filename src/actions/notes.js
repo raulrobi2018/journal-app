@@ -96,3 +96,20 @@ export const startUploading = (file) => {
         Swal.close();
     };
 };
+
+export const deleteNote = (id) => {
+    return async (dispatch, getState) => {
+        // Aquí se hace de la forma común acccediendo al atributo id mediante el punto
+        // Es lo mismo si desustructuramos el id
+        const uid = getState().auth.uid;
+
+        await db.doc(`${uid}/journal/Notes/${id}`).delete();
+        dispatch(deleteNoteFromState(id));
+    };
+};
+
+// Borra la nota de la lista de notas del state
+export const deleteNoteFromState = (id) => ({
+    type: types.notesDelete,
+    payload: id
+});
