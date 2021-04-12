@@ -8,7 +8,7 @@ export const setError = (err) => ({
 });
 
 export const removeError = () => ({
-    type: types.uiSetError
+    type: types.uiRemoveError
 });
 
 export const startLoading = () => ({
