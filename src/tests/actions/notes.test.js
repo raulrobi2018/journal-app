@@ -12,7 +12,6 @@ import {
 } from "../../actions/notes";
 import {db} from "../../firebase/firebase-config";
 import {types} from "../../types/types";
-import {jest} from "@jest/globals";
 
 // Configuracion necesaria para probar dispatch
 const middlewares = [thunk];
