@@ -17,11 +17,15 @@ export const startNewNote = () => {
             url: ""
         };
 
-        // Grabo el registro en la base de datos
-        const doc = await db.collection(`${uid}/journal/Notes`).add(entry);
+        try {
+            // Grabo el registro en la base de datos
+            const doc = await db.collection(`${uid}/journal/Notes`).add(entry);
 
-        dispatch(activeNote(doc.id, entry));
-        dispatch(addNewNoteToList(doc.id, entry));
+            dispatch(activeNote(doc.id, entry));
+            dispatch(addNewNoteToList(doc.id, entry));
+        } catch (error) {
+            Swal.fire("", "Ha ocurrido un error al crear la nota", "error");
+        }
     };
 };
 
