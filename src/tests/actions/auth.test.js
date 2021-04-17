@@ -1,6 +1,11 @@
 import configureStore from "redux-mock-store"; //ES6 modules
 import thunk from "redux-thunk";
-import {login, logout, startLogout} from "../../actions/auth";
+import {
+    login,
+    logout,
+    startLoginEmailPassword,
+    startLogout
+} from "../../actions/auth";
 import {types} from "../../types/types";
 
 // Configuracion necesaria para probar dispatch
@@ -39,5 +44,35 @@ describe("Testing auth.js", () => {
         // console.log(types.logout);
         // console.log(logoutAction);
         expect(logoutAction).toEqual({type: types.logout});
+    });
+
+    test("should do the logout correctly", async () => {
+        await store.dispatch(startLogout());
+
+        const actions = store.getActions();
+
+        expect(actions[0]).toEqual({
+            type: types.logout
+        });
+
+        expect(actions[1]).toEqual({
+            type: types.notesLogoutCleaning
+        });
+    });
+
+    test("should start the startLoginEmailPassword", async () => {
+        await store.dispatch(
+            startLoginEmailPassword("testing@testing.com", "123456")
+        );
+        const actions = store.getActions();
+        console.log(actions);
+
+        expect(actions[1]).toEqual({
+            type: types.login,
+            payload: {
+                uid: "thWn3XlIELMDBawrCg1Q5YTDd692",
+                displayName: null
+            }
+        });
     });
 });
