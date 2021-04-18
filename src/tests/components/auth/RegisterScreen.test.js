@@ -66,15 +66,28 @@ describe("Testing RegisterScreen component", () => {
         });
     });
 
-    // test("should run the startRegisterWithEmailPasswordName with its respectively params", () => {
-    //     //Dispara la función
-    //     wrapper.find("form").prop("onSubmit")({preventDefault() {}});
+    test("should display the error box", () => {
+        const initState = {
+            auth: {},
+            ui: {
+                loading: false,
+                msgError: "Email is not valid"
+            }
+        };
 
-    //     expect(startRegisterWithEmailPasswordName).toHaveBeenCalledWith(
-    //         "Raul",
-    //         "raulrodriguez@gmail.com",
-    //         "123456",
-    //         "123456"
-    //     );
-    // });
+        const store = mockStore(initState);
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <MemoryRouter>
+                    <RegisterScreen />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        expect(wrapper.find(".auth__alert-error").exists()).toBe(true);
+        expect(wrapper.find(".auth__alert-error").text().trim()).toBe(
+            initState.ui.msgError
+        );
+    });
 });
