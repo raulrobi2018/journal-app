@@ -14,8 +14,8 @@ export const LoginScreen = () => {
     });
 
     const [formValues, {handleInputChange}] = useForm({
-        email: "raulrodriguez@gmail.com",
-        password: "123456"
+        email: "",
+        password: ""
     });
 
     const {email, password} = formValues;
@@ -56,6 +56,7 @@ export const LoginScreen = () => {
                 />
                 <button
                     type="submit"
+                    id="submit"
                     className="btn btn-primary btn-block"
                     disabled={loading}
                 >
